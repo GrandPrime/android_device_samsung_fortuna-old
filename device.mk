@@ -1,8 +1,9 @@
 LOCAL_PATH := device/samsung/fortuna
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
-# Inherit from msm8939-common
+# Inherit from commons
 $(call inherit-product, device/cyanogen/msm8916-common/msm8916.mk)
+$(call inherit-product, device/samsung/qcom-common/qcom-common.mk)
 
 # Ramdisk
 PRODUCT_COPY_FILES += \
@@ -10,12 +11,7 @@ PRODUCT_COPY_FILES += \
 
 # Ramdisk Recovery
 PRODUCT_COPY_FILES += \
-     $(call find-copy-subdir-files,*,${LOCAL_PATH}/recovery,recovery/root)
-
-# Overlay
-DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay \
-	device/qcom/msm8916_64/overlay
+    $(call find-copy-subdir-files,*,${LOCAL_PATH}/recovery,recovery/root)
 
 TARGET_USES_QCOM_BSP := true
 # Add QC Video Enhancements flag
@@ -33,10 +29,6 @@ TARGET_USES_QCA_NFC := other
 
 PRODUCT_PROPERTY_OVERRIDES += \
            dalvik.vm.heapgrowthlimit=128m
-#$(call inherit-product, device/qcom/common/common64.mk)
-
-$(call inherit-product, frameworks/native/build/phone-hdpi-2048-dalvik-heap.mk)
-$(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
 
 PRODUCT_BOOT_JARS += qcmediaplayer \
                      WfdCommon \
@@ -51,12 +43,15 @@ PRODUCT_PACKAGES += libGLES_android
 PRODUCT_PACKAGES += libtime_genoff
 
 # Audio
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/audio/audio_effects.conf:system/vendor/etc/audio_effects.conf \
+    $(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf \
+    $(LOCAL_PATH)/audio/mixer_paths.xml:system/etc/mixer_paths.xml
+
 PRODUCT_PACKAGES += \
     audio.msm8916 \
     audio_policy.msm8916 \
     libaudio-resampler
-
-#PRODUCT_PACKAGES -= audio.primary.msm8916
 
 # Camera
 PRODUCT_PACKAGES += \
@@ -66,6 +61,9 @@ PRODUCT_PACKAGES += \
 # Samsung
 #PRODUCT_PACKAGES += \
 #    charge_only_mode
+
+# macloader
+PRODUCT_PACKAGES += macloader
 
 # Misc
 PRODUCT_PACKAGES += \
@@ -140,21 +138,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=190
 
-# PRODUCT_PROPERTY_OVERRIDES += \
-    # persist.sys.logkit.ctrlcode=0 \
-    # persist.sys.qc.sub.rdump.max=3 \
-    # mdc_initial_max_retry=10 \
-    # drm.service.enabled=true \
-    # ro.media.enc.aud.fileformat=amr \
-    # ro.media.enc.aud.codec=amrnb \
-    # ro.gps.agps_provider=1
-
-# Media
-PRODUCT_PROPERTY_OVERRIDEs += \
-    media.stagefright.use-awesome=true
-
 # Inhert dalvik heap values from aosp
-#$(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
+$(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
 
 PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
