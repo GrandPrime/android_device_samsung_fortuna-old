@@ -10,7 +10,6 @@ $(call inherit-product, device/samsung/fortuna/full_fortuna.mk)
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/common_full_phone.mk)
 
-
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := fortuna
 PRODUCT_NAME := cm_fortuna
