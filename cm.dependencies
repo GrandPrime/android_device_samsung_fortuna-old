@@ -8,6 +8,10 @@
     "target_path": "device/qcom/common"
   },
   {
+    "repository": "android_device_samsung_qcom-common",
+    "target_path": "device/samsung/qcom-common"
+  },
+  {
     "repository": "android_device_cyanogen_msm8916-common",
     "target_path": "device/cyanogen/msm8916-common"
   }
