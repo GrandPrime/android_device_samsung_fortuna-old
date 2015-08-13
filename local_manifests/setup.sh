@@ -1,0 +1,1 @@
+cp fortuna.xml ../../../../.repo/local_manifests/roomservice.xml

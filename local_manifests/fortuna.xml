@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+    <!--project path="device/samsung/fortuna" name="GrandPrime/android_device_samsung_fortuna" remote="github" revision="cm-12.1" /-->
+    <!--project path="kernel/samsung/fortuna" name="GrandPrime/android_kernel_samsung_fortuna" remote="github" revision="cm-12.1" /-->
+    <!--project path="vendor/samsung/fortuna" name="GrandPrime/android_vendor_samsung_fortuna" remote="github" revision="cm-12.1" /-->
+    <project path="device/cyanogen/msm8916-common" name="CyanogenMod/android_device_cyanogen_msm8916-common" remote="github" revision="cm-12.1" />
+	<project path="device/samsung/qcom-common" name="CyanogenMod/android_device_samsung_qcom-common" remote="github" revision="cm-12.1" />
+	<project path="hardware/qcom/fm" name="CyanogenMod/android_hardware_qcom_fm" remote="github" revision="cm-12.1" />
+</manifest>
+
