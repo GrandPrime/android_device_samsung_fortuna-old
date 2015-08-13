@@ -1,4 +1,4 @@
-# Copyright (c) 2014, The Linux Foundation. All rights reserved.
+# Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
@@ -27,27 +27,56 @@
 #
 #
 
-import init.mmi.rc
-
 on early-init
     mkdir /firmware 0771 system system
+    mkdir /firmware-modem 0771 system system
     mkdir /system 0777 root root
     symlink /data/tombstones /tombstones
 
-    # Create PDS mount point
-    mkdir /pds 0755 root root
+on fs
+    mount_all fstab.qcom
 
-    # Create modem FSG mount point
-    mkdir /fsg 755 root root
+    # Keeping following partitions outside fstab file. As user may not have
+    # these partition flashed on the device. Failure to mount any partition in fstab file
+    # results in failure to launch late-start class.
+
+    wait /dev/block/bootdevice/by-name/cache
+    check_fs /dev/block/bootdevice/by-name/cache ext4
+    mount ext4 /dev/block/bootdevice/by-name/cache /cache nosuid nodev noatime noauto_da_alloc,discard,journal_async_commit,errors=panic
 
     wait /dev/block/bootdevice/by-name/persist
-    mount ext4 /dev/block/bootdevice/by-name/persist /persist nosuid nodev barrier=1
-    mkdir /persist/data 0700 system system
-    restorecon_recursive /persist
+    check_fs /dev/block/bootdevice/by-name/persist ext4
+    mount ext4 /dev/block/bootdevice/by-name/persist /persist nosuid nodev noatime noauto_da_alloc,discard,journal_async_commit,errors=panic
+    mkdir /persist/data 0700  system system
+    restorecon_recursive   /persist
 
+    wait /dev/block/bootdevice/by-name/efs
+    check_fs /dev/block/bootdevice/by-name/efs ext4
+    mount ext4 /dev/block/bootdevice/by-name/efs /efs nosuid nodev noatime noauto_da_alloc,discard,journal_async_commit,errors=panic
+    chown system radio /efs
+    chmod 0771 /efs
+    rm -rf /efs/dmverity
+    restorecon -R /efs
+	
+on fs_sec_selinux
+	
+	wait /dev/block/bootdevice/by-name/apnhlos
+    mount vfat /dev/block/bootdevice/by-name/apnhlos /firmware ro shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337,context=u:object_r:firmware:s0
+
+	wait /dev/block/bootdevice/by-name/modem
+    mount vfat /dev/block/bootdevice/by-name/modem /firmware-modem ro shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337,context=u:object_r:firmware:s0
+
+	
+on fs_selinux
+
+    wait /dev/block/bootdevice/by-name/apnhlos
+    mount vfat /dev/block/bootdevice/by-name/apnhlos /firmware ro shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337
+    
     wait /dev/block/bootdevice/by-name/modem
-    mount vfat /dev/block/bootdevice/by-name/modem /firmware ro context=u:object_r:firmware_file:s0,shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337
-    write /sys/kernel/boot_adsp/boot 1
+    mount vfat /dev/block/bootdevice/by-name/modem /firmware-modem ro shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337
+
+	
+    #write /sys/kernel/boot_adsp/boot 1
 
 on post-fs-data
     mkdir /data/tombstones 0771 system system
@@ -58,17 +87,22 @@ on post-fs-data
     mkdir /persist/data/sfs 0700 system system
     mkdir /persist/data/tz 0700 system system
     mkdir /data/misc/dts 0770 media audio
-
 #start camera server as daemon
 service qcamerasvr /system/bin/mm-qcamera-daemon
-    class late_start
+    class main
     user camera
     group camera system inet input graphics
 
 #enable zram
 on property:ro.config.zram=true
     swapon_all fstab.qcom
-    write /proc/sys/vm/swappiness 100
+#    write /proc/sys/vm/swappiness 100
+
+#start gpu_snapshotd for gpu hang issue debugging
+service gpu_snapshotd /system/bin/gpu_snapshotd -s /sys/class/kgsl/kgsl-3d0/snapshot -d /data/log/ -m 0700
+    class late_start
+    user system
+    group system  
 
 # Allow usb charging to be disabled peristently
 on property:persist.usb.chgdisabled=1
@@ -76,11 +110,6 @@ on property:persist.usb.chgdisabled=1
 
 on property:persist.usb.chgdisabled=0
     write /sys/class/power_supply/battery/charging_enabled 1
-
-service qrngd /system/bin/qrngd -f
-   class main
-   user root
-   group root
 
 service qrngp /system/bin/qrngp -f
    class main
@@ -102,9 +131,14 @@ service qseecomd /system/bin/qseecomd
 #   user system
 #   group system net_raw
 
+#service mpdecision /system/bin/mpdecision --avg_comp
+#   user root
+#   disabled
+
 service perfd /system/bin/perfd
    class main
    user root
+   group root
    disabled
 
 service thermal-engine /system/bin/thermal-engine
@@ -138,24 +172,35 @@ on boot
     chown system drmrpc /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0070/secure_touch_enable
     chown system drmrpc /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0070/secure_touch
 
-service ppd /system/bin/mm-pp-daemon
-    class late_start
-    disabled
-    user system
-    socket pps stream 0660 system system
-    group system graphics
+#service ppd /system/bin/mm-pp-daemon
+#    class late_start
+#    disabled
+#    user system
+#    socket pps stream 0660 system system
+#    group system graphics
 
-on property:init.svc.surfaceflinger=stopped
-    stop ppd
+#on property:init.svc.surfaceflinger=stopped
+#    stop ppd
 
-on property:init.svc.surfaceflinger=running
-    start ppd
+#on property:init.svc.surfaceflinger=running
+#    start ppd
 
 service wcnss-service /system/bin/wcnss_service
     class main
     user system
     group system wifi radio
     oneshot
+
+on charger
+    wait /dev/block/bootdevice/by-name/system
+    mount ext4 /dev/block/bootdevice/by-name/system /system ro barrier=1
+    chown root system /sys/class/power_supply/bms/current_now
+    chown root system /sys/class/power_supply/bms/voltage_ocv
+    chmod 0664 /sys/class/power_supply/bms/current_now
+    chmod 0664 /sys/class/power_supply/bms/voltage_ocv
+    start vm_bms
+    load_all_props
+    start qcom-post-boot
 
 service imsqmidaemon /system/bin/imsqmidaemon
     class main
@@ -190,32 +235,37 @@ on property:sys.ims.DATA_DAEMON_STATUS=1
     start ims_rtp_daemon
     start imscmservice
 
-service ppd /system/bin/mm-pp-daemon
-    class late_start
-    disabled
-    user system
-    socket pps stream 0660 system system
-    group system graphics
-
-on property:init.svc.surfaceflinger=stopped
-    stop ppd
-
-on property:init.svc.surfaceflinger=running
-    start ppd
-
-on charger
-    wait /dev/block/bootdevice/by-name/system
-    mount ext4 /dev/block/bootdevice/by-name/system /system ro barrier=1
-    chown root system /sys/class/power_supply/bms/current_now
-    chown root system /sys/class/power_supply/bms/voltage_ocv
-    chmod 0664 /sys/class/power_supply/bms/current_now
-    chmod 0664 /sys/class/power_supply/bms/voltage_ocv
-    start vm_bms
-    load_all_props
-    start qcom-post-boot
-
-service dts_configurator /system/bin/dts_configurator
-    class main
+# Secure Storage startup
+service secure_storage /system/bin/secure_storage_daemon
+    class core
     user system
     group system
-    oneshot
+    disabled
+
+on property:ro.securestorage.support=true
+    mkdir /dev/.secure_storage
+    chmod 0711 /dev/.secure_storage
+    chown system system /dev/.secure_storage
+    restorecon -R /dev/.secure_storage
+    start secure_storage
+
+on property:ro.securestorage.knox=true
+    mkdir /dev/.secure_storage
+    chmod 0711 /dev/.secure_storage
+    chown system system /dev/.secure_storage
+    restorecon -R /dev/.secure_storage
+    start secure_storage
+
+# SecEDS
+service TvoutService_C /system/bin/bintvoutservice
+    class main
+    user system
+    group graphics
+on property:ro.SecEDS.enable=false
+    stop TvoutService_C
+
+service dts_configurator /system/bin/dts_configurator
+   class main
+   user system
+   group system
+   oneshot

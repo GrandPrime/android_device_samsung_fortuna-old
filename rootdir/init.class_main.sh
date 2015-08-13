@@ -32,6 +32,7 @@
 baseband=`getprop ro.baseband`
 sgltecsfb=`getprop persist.radio.sglte_csfb`
 datamode=`getprop persist.data.mode`
+multisimslotcnt=`getprop ro.multisim.simslotcount`
 
 case "$baseband" in
     "apq")
@@ -62,10 +63,18 @@ case "$baseband" in
     multisim=`getprop persist.radio.multisim.config`
 
     if [ "$multisim" = "dsds" ] || [ "$multisim" = "dsda" ]; then
-        start ril-daemon2
+        stop ril-daemon
+        start ril-daemon
+        start ril-daemon1
     elif [ "$multisim" = "tsts" ]; then
+        stop ril-daemon
+        start ril-daemon
+        start ril-daemon1
         start ril-daemon2
-        start ril-daemon3
+    elif [ "$multisimslotcnt" = "2" ]; then
+        stop ril-daemon
+        start ril-daemon
+        start ril-daemon1
     fi
 
     case "$datamode" in
@@ -75,9 +84,6 @@ case "$baseband" in
             ;;
         "concurrent")
             start qti
-            start netmgrd
-            ;;
-        *)
             start netmgrd
             ;;
     esac

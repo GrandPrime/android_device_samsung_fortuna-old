@@ -25,26 +25,10 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-/dev/null                 0666   root       root
-/dev/zero                 0666   root       root
-/dev/full                 0666   root       root
-/dev/ptmx                 0666   root       root
-/dev/tty                  0666   root       root
-/dev/random               0666   root       root
-/dev/urandom              0666   root       root
-
-/dev/ashmem               0666   root       root
-/dev/binder               0666   root       root
-/dev/tspdrv               0666   root       root
-/dev/ttyHSL0             0660   radio      system
-# logger should be world writable (for logging) but not readable
-/dev/log/*                0666   root       log
+/dev/color_enhancement    0660   system     system
 
 # the DIAG device node is not world writable/readable.
 /dev/diag                 0660   system     qcom_diag
-/dev/ttydiag0             0660   system     qcom_diag
-/dev/ttydiag1             0660   system     qcom_diag
-/dev/ttydiag2             0660   system     qcom_diag
 
 /dev/genlock              0666   system     system
 /dev/kgsl                 0666   system     system
@@ -52,7 +36,7 @@
 /dev/kgsl-2d0             0666   root       root
 /dev/kgsl-2d1             0666   root       root
 /dev/ion                  0664   system     system
-/dev/rtc0                 0660   system     system
+/dev/rtc0                 0600   system     system
 /dev/smd0                 0660   system     system
 /dev/smd4                 0660   system     system
 /dev/smd_cxm_qmi          0640   radio      radio
@@ -63,8 +47,6 @@
 /dev/ipa                  0660   net_admin  net_admin
 /dev/wwan_ioctl           0660   net_admin  net_admin
 /dev/ipaNatTable          0660   net_admin  net_admin
-
-/dev/block/platform/soc.0/by-name/frp 0600 system system
 
 #permissions for CSVT
 /dev/smd11                0660   radio      radio
@@ -125,7 +107,6 @@
 /dev/media*               0660   system     camera
 /dev/v4l-subdev*          0660   system     camera
 /dev/qseecom              0660   system     drmrpc
-/dev/sec                  0660   system     drmrpc
 /dev/pft                  0660   system     drmrpc
 /dev/gemini0              0660   system     camera
 /dev/jpeg0                0660   system     camera
@@ -141,8 +122,8 @@
 /dev/msm_vidc_dec_sec     0660   system     audio
 /dev/msm_vidc_enc         0660   system     audio
 /dev/msm_rotator          0660   system     system
-/dev/hw_random            0664   root       root
-/dev/adsprpc-smd          0660   media      camera
+/dev/hw_random            0600   root       root
+/dev/adsprpc-smd          0664   system     system
 
 #permissions for audio
 /dev/audio_slimslave      0660   system     audio
@@ -162,6 +143,7 @@
 /dev/msm_a2dp_in          0660   system     audio
 /dev/msm_ac3              0660   system     audio
 /dev/msm_audio_cal        0660   system     audio
+/dev/msm_acdb             0660   system     audio
 /dev/msm_cad              0660   system     audio
 /dev/msm_fm               0660   system     audio
 /dev/msm_mvs              0660   system     audio
@@ -201,6 +183,7 @@
 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-*            max_latency    0660    input    system
 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-*            flush          0660    input    system
 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-*            calibrate      0660    input    system
+/sys/devices/soc.0/78b6000.i2c/i2c-0/0-*            chip_id        0660    input    system
 /sys/devices/soc.0/78b5000.i2c/i2c-1/1-*            enable         0660    input    system
 /sys/devices/soc.0/78b5000.i2c/i2c-1/1-*            poll_delay     0660    input    system
 /sys/devices/soc.0/78b5000.i2c/i2c-1/1-*            enable_wakeup  0660    input    system
@@ -221,6 +204,7 @@
 # wlan
 /dev/wcnss_wlan           0660   system     system
 /dev/wcnss_ctrl           0660   system     system
+
 #nfc permissions
 /dev/nfc-nci              0660    nfc         nfc
 /dev/assd                 0660    nfc         nfc
@@ -232,30 +216,84 @@
 
 # SSR devices
 /dev/subsys_*         0640   system     system
+# ESOC devices
+/dev/subsys_esoc*         0640   system     radio
 
 # Ultrasound device
 /dev/usf1                 0660   system     system
 
+#BST
+/sys/devices/virtual/input/input* range                       0660    input      system
+/sys/devices/virtual/input/input* bandwidth                   0660    input      system
+/sys/devices/virtual/input/input* op_mode                     0660    input      system
+/sys/devices/virtual/input/input* delay                       0660    input      system
+/sys/devices/virtual/input/input* SleepDur                    0660    input      system
+/sys/devices/virtual/input/input* fast_calibration_x          0660    input      system
+/sys/devices/virtual/input/input* fast_calibration_y          0660    input      system
+/sys/devices/virtual/input/input* fast_calibration_z          0660    input      system
+/sys/devices/virtual/input/input* fifo_overrun                0660    input      system
+/sys/devices/virtual/input/input* fifo_data_frame             0660    input      system
+/sys/devices/virtual/input/input* fifo_mode                   0660    input      system
+/sys/devices/virtual/input/input* fifo_trig                   0660    input      system
+/sys/devices/virtual/input/input* fifo_framecount             0660    input      system
+/sys/devices/virtual/input/input* fifo_data_sel               0660    input      system
+/sys/devices/virtual/input/input* reg                         0660    input      system
+/sys/devices/virtual/input/input* offset_x                    0660    input      system
+/sys/devices/virtual/input/input* offset_y                    0660    input      system
+/sys/devices/virtual/input/input* offset_z                    0660    input      system
+/sys/devices/virtual/input/input* enable_int                  0660    input      system
+/sys/devices/virtual/input/input* int_mode                    0660    input      system
+/sys/devices/virtual/input/input* slope_duration              0660    input      system
+/sys/devices/virtual/input/input* slope_threshold             0660    input      system
+/sys/devices/virtual/input/input* slope_no_mot_duration       0660    input      system
+/sys/devices/virtual/input/input* slope_no_mot_threshold      0660    input      system
+/sys/devices/virtual/input/input* high_g_duration             0660    input      system
+/sys/devices/virtual/input/input* high_g_threshold            0660    input      system
+/sys/devices/virtual/input/input* low_g_duration              0660    input      system
+/sys/devices/virtual/input/input* low_g_threshold             0660    input      system
+/sys/devices/virtual/input/input* tap_duration                0660    input      system
+/sys/devices/virtual/input/input* tap_threshold               0660    input      system
+/sys/devices/virtual/input/input* tap_quiet                   0660    input      system
+/sys/devices/virtual/input/input* tap_shock                   0660    input      system
+/sys/devices/virtual/input/input* tap_samp                    0660    input      system
+/sys/devices/virtual/input/input* orient_mode                 0660    input      system
+/sys/devices/virtual/input/input* orient_blocking             0660    input      system
+/sys/devices/virtual/input/input* orient_hyst                 0660    input      system
+/sys/devices/virtual/input/input* orient_theta                0660    input      system
+/sys/devices/virtual/input/input* flat_theta                  0660    input      system
+/sys/devices/virtual/input/input* flat_hold_time              0660    input      system
+/sys/devices/virtual/input/input* selftest                    0660    input      system
+/sys/devices/virtual/input/input* softreset                   0660    input      system
+/sys/devices/virtual/input/input* en_sig_motion               0660    input      system
+/sys/devices/virtual/input/input* tap_time_period             0660    input      system
+/sys/devices/virtual/input/input* en_double_tap               0660    input      system
+
+/sys/devices/virtual/input/input* fastoffset_en               0660    input      system
+/sys/devices/virtual/input/input* slowoffset_en               0660    input      system
+/sys/devices/virtual/input/input* sleepdur                    0660    input      system
+/sys/devices/virtual/input/input* autosleepdur                0660    input      system
+/sys/devices/virtual/input/input* fifo_tag                    0660    input      system
+/sys/devices/virtual/input/input* odr                         0660    input      system
+/sys/devices/virtual/input/input* rept_xy                     0660    input      system
+/sys/devices/virtual/input/input* rept_z                      0660    input      system
+/sys/devices/virtual/input/input* test                        0660    input      system
+
 # Ramdump devices
 /dev/ramdump*             0640   system     system
 
-# Moto Sensors
-/dev/stml0xx               0660  system     compass
-/dev/stml0xx_as            0660  compass    compass
-/dev/stml0xx_ms            0660  compass    compass
-/dev/akm09912              0660  compass    compass
-/dev/akm09912_dev          0660  compass    compass
+# Add device block for FRP
+/dev/block/bootdevice/by-name/config    0660   system     system
+/dev/block/bootdevice/by-name/frp                             0600    system     system
 
-#DTV
-/dev/isdbt                0660  system     system
-
-# Permissions for tcmd
-/dev/i2c-1                0660   root       system
-/dev/i2c-2                0660   root       system
-/dev/i2c-4                0660   root       system
-
-# HOB
-/dev/mot_hob_ram          0660   radio      radio
-
-# Subsystem Restart Ramdump
-/dev/ramdump*             0660   radio      radio
+#cpufreq_governor
+/sys/devices/system/cpu/cpu*	cpufreq/interactive/above_hispeed_delay    0660  system system
+/sys/devices/system/cpu/cpu*	cpufreq/interactive/go_hispeed_load        0660  system system
+/sys/devices/system/cpu/cpu*	cpufreq/interactive/timer_rate             0660  system system
+/sys/devices/system/cpu/cpu*	cpufreq/interactive/hispeed_freq           0660  system system
+/sys/devices/system/cpu/cpu*	cpufreq/interactive/io_is_busy             0660  system system
+/sys/devices/system/cpu/cpu*	cpufreq/interactive/target_loads           0660  system system
+/sys/devices/system/cpu/cpu*	cpufreq/interactive/min_sample_time        0660  system system
+/sys/devices/system/cpu/cpu*	cpufreq/interactive/sampling_down_factor   0660  system system
+/sys/devices/system/cpu/cpu*	cpufreq/interactive/lpm_disable_freq       0660  system system
+/sys/devices/system/cpu/cpu*	cpufreq/interactive/use_migration_notif    0660  system system
+/sys/devices/system/cpu/cpu*	cpufreq/interactive/use_sched_load         0660  system system
