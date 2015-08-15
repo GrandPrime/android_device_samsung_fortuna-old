@@ -5,7 +5,7 @@
 
 Check the [`local_manifests`](./local_manifests) directory.
 
-In the [`TWRP_odin`]](./TWRP_odin) directory is TWRP build flashable via odin.
+In the [`TWRP_odin`](./TWRP_odin) directory is TWRP build flashable via odin.
 
 ## For build TeamWinRecoveryProject (TWRP):
 ```
