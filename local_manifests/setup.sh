@@ -1,1 +1,1 @@
-cp fortuna.xml ../../../../.repo/local_manifests/roomservice.xml
+cp fortuna.xml ../../../../.repo/local_manifests/fortuna.xml
