@@ -20,8 +20,10 @@ TW=y make -j4 recoveryimage
 
 ## Restore bug:
 We need to restore KitKat two steps:
-0. Restore without data then Wipe > Factory Reset > Reboot system
-0. After boot, hold the Power Button and reboot to recovery, then restore data
+
+1. Restore without data then Wipe > Factory Reset > Reboot system
+2. After boot, hold the Power Button and reboot to recovery, then restore data
+
 **Done** :sweat_smile:
 
 ## Credits:
