@@ -14,6 +14,7 @@ TARGET_OTA_ASSERT_DEVICE := grandprimelte,fortuna,gprimeltetmo,gprimeltespr,gpri
 # Audio and media
 TARGET_QCOM_AUDIO_VARIANT := caf
 TARGET_QCOM_MEDIA_VARIANT := caf
+TARGET_USES_QCOM_MM_AUDIO := true
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
@@ -24,6 +25,7 @@ USE_DEVICE_SPECIFIC_CAMERA := true
 
 # CPU
 TARGET_CPU_CORTEX_A53 := true
+TARGET_CPU_SMP := true
 
 # default.prop
 ADDITIONAL_DEFAULT_PROPERTIES += \
@@ -55,8 +57,8 @@ TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
 TARGET_NO_RPC := true
 
 # Init
-#TARGET_LIBINIT_DEFINES_FILE := $(LOCAL_PATH)/init/init_fortuna.c
-#TARGET_UNIFIED_DEVICE := true
+TARGET_LIBINIT_DEFINES_FILE := $(LOCAL_PATH)/init/init_fortuna.c
+TARGET_UNIFIED_DEVICE := true
 
 # Kernel
 BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom msm_rtb.filter=0x3F ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci androidboot.selinux=permissive
@@ -85,15 +87,11 @@ COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE -DQCOM_BSP
 
 # Recovery
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
+BOARD_SUPPRESS_EMMC_WIPE := true
 TARGET_RECOVERY_PIXEL_FORMAT := ABGR_8888
 TARGET_RECOVERY_QCOM_RTC_FIX := true
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
-ifeq ($(TW),)
-	TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery.fstab
-else
-	TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery/twrp.fstab
-endif
 
 #SELinux
 BOARD_SEPOLICY_DIRS += \
@@ -122,23 +120,28 @@ TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
 # TW_CRYPTO_KEY_LOC := "footer"
 # TW_CRYPTO_MNT_POINT := "/data"
 # TW_CRYPTO_REAL_BLKDEV := "/dev/block/platform/7824900.sdhci/by-name/userdata"
-#TW_EXTERNAL_STORAGE_PATH := "/external_sd"
-#TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
 TW_EXCLUDE_ENCRYPTED_BACKUPS := true
 TW_HAS_DOWNLOAD_MODE := true
 TW_HAS_MTP := true
 # TW_IGNORE_MAJOR_AXIS_0 := true
 TW_INCLUDE_CRYPTO := true
 TW_INPUT_BLACKLIST := "accelerometer"
-#TW_INTERNAL_STORAGE_PATH := "/data/media/0"
+TW_INTERNAL_STORAGE_PATH := "/data/media/0"
 #TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
 # TW_MAX_BRIGHTNESS := 255
 # TW_MTP_DEVICE := /dev/usb_mtp_gadget
 TW_NEW_ION_HEAP := true
 TW_NO_REBOOT_BOOTLOADER := true
 TW_NO_SCREEN_TIMEOUT := true
+TW_NO_USB_STORAGE := true
 TW_TARGET_USES_QCOM_BSP := true
 TW_THEME := portrait_hdpi
+ifeq ($(TW),)
+	TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery.fstab
+else
+	TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/recovery/twrp.fstab
+	TARGET_CPU_VARIANT := cortex-a7
+endif
 
 # Video
 TARGET_HAVE_SIGNED_VENUS_FW := true
