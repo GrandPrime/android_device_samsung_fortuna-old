@@ -1,5 +1,5 @@
 /*
-   Copyright (c) 2013, The Linux Foundation. All rights reserved.
+   Copyright (c) 2014, The Linux Foundation. All rights reserved.
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions are
@@ -55,23 +55,29 @@ void init_msm_properties(unsigned long msm_id, unsigned long msm_ver, char *boar
     property_get("ro.bootloader", bootloader);
 
     if (strstr(bootloader, "G530FZ")) {
-        /* These values are taken from SM-G530W
-        property_set("ro.build.fingerprint", "samsung/gprimeltevl/gprimeltecan:5.1.1/LMY47X/G530WVLU1AOF9:user/release-keys");
-        property_set("ro.build.description", "gprimeltevl-user 5.1.1 LMY47X G530WVLU1AOF9 release-keys");
-        property_set("ro.product.model", "SM-G530W");
-        property_set("ro.product.device", "gprimeltecan");
-        property_set("ro.product.name", "gprimeltevl");
-        property_set("ro.build.product", "gprimeltecan");
-        gsm_properties();
-    } else {
-        /* hese values are taken from SM-G530FZ */
-        property_set("ro.build.fingerprint", "samsung/grandprimeltexx/grandprimelte:4.4.4/KTU84P/G530FZXXU1AOF1:user/release-keys");
-        property_set("ro.build.description", "grandprimeltexx-user 4.4.4 KTU84P G530FZXXU1AOF1 release-keys");
+        /* SM-G530FZ */
+        property_set("ro.build.fingerprint", "samsung/grandprimeltexx/grandprimelte:5.0.2/LRX22G/G530FZXXU1BOG2:user/release-keys");
+        property_set("ro.build.description", "grandprimeltexx-user 5.0.2 LRX22G G530FZXXU1BOG2 release-keys");
         property_set("ro.product.model", "SM-G530FZ");
         property_set("ro.product.device", "grandprimelte");
         property_set("ro.product.name", "grandprimeltexx");
         property_set("ro.build.product", "grandprimelte");
-        gsm_properties();
+        property_set("telephony.lteOnCdmaDevice", "0");
+        property_set("persist.radio.apm_sim_not_pwdn", "1");
+        property_set("persist.radio.add_power_save", "1");
+        property_set("persist.data.netmgrd.qos.enable", "false");
+        property_set("persist.cne.feature", "0");
+        property_set("persist.radio.lte_vrte_ltd", "1");
+    } else if (strstr(bootloader, "G530H")) {
+        /* SM-G530H */
+        property_set("ro.build.fingerprint", "samsung/fortunave3gxx/fortunave3g:5.0.2/LRX22G/G530HXCU1BOI1:user/release-keys");
+        property_set("ro.build.description", "fortunave3gxx-user 5.0.2 LRX22G G530HXCU1BOI1 release-keys");
+        property_set("ro.product.model", "SM-G530H");
+        property_set("ro.product.device", "fortunave3g");
+        property_set("ro.product.name", "fortunave3gxx");
+        property_set("ro.build.product", "fortunave3g");
+        property_set("persist.radio.multisim.config", "dsds");
+        property_set("ro.multisim.simslotcount", "2");
     }
 
     property_get("ro.product.device", device);
@@ -79,8 +85,3 @@ void init_msm_properties(unsigned long msm_id, unsigned long msm_ver, char *boar
     INFO("Found bootloader id %s setting build properties for %s device\n", bootloader, devicename);
 }
 
-void gsm_properties()
-{
-    property_set("telephony.lteOnGsmDevice", "1");
-    property_set("ro.telephony.default_network", "9");
-}

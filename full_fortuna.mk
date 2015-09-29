@@ -15,7 +15,7 @@
 #
 
 # Inherit from those products. Most specific first.
-$(call inherit-product, $(SRC_TARGET_DIR)/product/aosp_arm64.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 # Inherit from device.mk
 $(call inherit-product, device/samsung/fortuna/device.mk)
@@ -24,7 +24,7 @@ $(call inherit-product, device/samsung/fortuna/device.mk)
 PRODUCT_DEVICE := fortuna
 PRODUCT_NAME := full_fortuna
 PRODUCT_BRAND := samsung
-PRODUCT_MODEL := fortuna
+PRODUCT_MODEL := SM-G530FZ
 PRODUCT_MANUFACTURER := samsung
 
 $(call inherit-product-if-exists, vendor/samsung/fortuna/fortuna-vendor.mk)

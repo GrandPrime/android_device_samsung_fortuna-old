@@ -1,7 +1,4 @@
 #
-# from device/samsung/fortuna/system.prop
-#
-#
 # system.prop for msm8916
 #
 
@@ -9,6 +6,7 @@ ro.sf.lcd_density=240
 
 # Evolution RIL (8xxx)
 rild.libpath=/system/lib/libsec-ril.so
+
 rild.libargs=-d /dev/smd0
 persist.rild.nitz_plmn=
 persist.rild.nitz_long_ons_0=
@@ -19,12 +17,14 @@ persist.rild.nitz_short_ons_0=
 persist.rild.nitz_short_ons_1=
 persist.rild.nitz_short_ons_2=
 persist.rild.nitz_short_ons_3=
+persist.radio.rat_on=combine
 ril.subscription.types=NV,RUIM
 DEVICE_PROVISIONED=1
+# Start in cdma mode
+#ro.telephony.default_network=5
 
 debug.sf.hw=1
 debug.egl.hw=1
-debug.composition.type=c2d
 persist.hwc.mdpcomp.enable=true
 debug.mdpcomp.logs=0
 dalvik.vm.heapsize=36m
@@ -41,7 +41,7 @@ persist.demo.hdmirotationlock=false
 #
 # system props for the cne module
 #
-persist.cne.feature=0
+persist.cne.feature=1
 
 #system props for the MM modules
 media.stagefright.enable-player=true
@@ -50,24 +50,49 @@ media.stagefright.enable-aac=true
 media.stagefright.enable-qcp=true
 media.stagefright.enable-fma2dp=true
 media.stagefright.enable-scan=true
+media.swhevccodectype=0
+mm.enable.smoothstreaming=true
 mmp.enable.3g2=true
 media.aac_51_output_enabled=true
-mm.enable.qcom_parser=262143
+#codecs: DivX DivXHD AVI AC3 ASF AAC QCP DTS 3G2 MP2TS
+mm.enable.qcom_parser=3183219
 
-#
-# system props for the data modules
-#
+# Default to AwesomePlayer
+media.stagefright.use-awesome=true
 
-ro.data.large_tcp_window_size=true
+#system props for time-services
+persist.timed.enable=true
+
+# Keep SIM state on LPM mode
+persist.radio.apm_sim_not_pwdn=1
+
+# Don't wait the card state for RADIO POWER request
+persist.radio.no_wait_for_card=1
+
+# For sys info indication
+persist.radio.add_power_save=1
+
+# Snapshot setting
+persist.radio.snapshot_enabled=1
+persist.radio.snapshot_timer=22
 
 #
 # system prop for opengles version
 #
-# 131072 is decimal for 0x20000 to report version 2
+# 196608 is decimal for 0x30000 to report version 3
 ro.opengles.version=196608
 
 # System property for cabl
-ro.qualcomm.cabl=0
+ro.qualcomm.cabl=2
+
+#
+# System props for telephony
+# System prop to turn on CdmaLTEPhone always
+#telephony.lteOnCdmaDevice=1
+#
+# System props for bluetooh
+# System prop to turn on hfp client
+bluetooth.hfp.client=1
 
 #Simulate sdcard on /data/media
 #
@@ -86,6 +111,8 @@ persist.audio.fluence.speaker=true
 tunnel.audio.encode = false
 #Buffer size in kbytes for compress offload playback
 audio.offload.buffer.size.kb=32
+#Minimum duration for offload playback in secs
+audio.offload.min.duration.secs=30
 #Enable offload audio video playback by default
 av.offload.enable=true
 #enable voice path for PCM VoIP by default
@@ -97,34 +124,30 @@ ro.fm.transmitter=false
 #enable dsp gapless mode by default
 audio.offload.gapless.enabled=true
 
-#use VERY_HIGH_QUALITY for audio resampler
 af.resampler.quality=4
 
-# Enable time services daemon
-persist.timed.enable=true
+#property to enable user to access Google WFD settings
+persist.debug.wfd.enable=1
+#propery to enable VDS WFD solution
+persist.hwc.enable_vds=1
 
-# Keep SIM state on LPM mode
-persist.radio.apm_sim_not_pwdn=1
+#property to enable narrow search range for video encoding
+vidc.enc.narrow.searchrange=1
 
-# Don't wait the card state for RADIO POWER request
-persist.radio.no_wait_for_card=1
+# low RAM property
+ro.config.low_ram=true
 
-# For sys info indication
-persist.radio.add_power_save=1
-
-# Snapshot setting
-persist.radio.snapshot_enabled=1
-persist.radio.snapshot_timer=22
+# System property for storage_preload
+persist.sys.storage_preload=1
 
 # Data modules (For evolution RIL model)
 ro.use_data_netmgrd=false
 persist.data.netmgrd.qos.enable=false
 
-# Use data service state for signal display (Except USC CS model)
-#ro.config.combined_signal=true
-
-# System property for storage_preload
-persist.sys.storage_preload=1
-
-#defining number of background services for reducing boot complete delay
-ro.config.max_starting_bg=8
+# DHA tuning
+ro.config.dha_cached_max=4
+ro.config.dha_empty_init=20
+ro.config.dha_empty_max=20
+ro.config.dha_th_rate=1.9
+ro.config.dha_lmk_scale=1.34
+ro.config.ldha_ext_enable=true

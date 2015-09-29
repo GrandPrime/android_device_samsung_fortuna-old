@@ -1,11 +1,14 @@
 # Release name
-PRODUCT_RELEASE_NAME := fortuna
+PRODUCT_RELEASE_NAME := Samsung Galaxy Grand Prime
 
 # Boot animation
 TARGET_SCREEN_WIDTH := 540
 TARGET_SCREEN_HEIGHT := 960
 
 $(call inherit-product, device/samsung/fortuna/full_fortuna.mk)
+
+# Enhanced NFC
+$(call inherit-product, vendor/cm/config/nfc_enhanced.mk)
 
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/common_full_phone.mk)
@@ -14,7 +17,7 @@ $(call inherit-product, vendor/cm/config/common_full_phone.mk)
 PRODUCT_DEVICE := fortuna
 PRODUCT_NAME := cm_fortuna
 PRODUCT_BRAND := samsung
-PRODUCT_MODEL := fortuna
+PRODUCT_MODEL := SM-G530FZ
 PRODUCT_MANUFACTURER := samsung
 
-PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=1
+PRODUCT_GMS_CLIENTID_BASE := android-samsung
