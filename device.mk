@@ -255,12 +255,13 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
 
 PRODUCT_PACKAGES += \
+    hostapd \
     hostapd_cli \
     libQWiFiSoftApCfg \
     libqsap_sdk \
     libwpa_client \
     p2p_supplicant_overlay.conf \
-	pronto_wlan.ko \
+    pronto_wlan.ko \
     wcnss_service \
     wpa_supplicant \
     wpa_supplicant.conf \
