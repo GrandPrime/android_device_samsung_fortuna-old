@@ -47,21 +47,11 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/mixer_paths.xml:system/etc/mixer_paths.xml
 
 # Boot jars
-PRODUCT_BOOT_JARS += qcom.fmradio \
+PRODUCT_BOOT_JARS += \
+	qcom.fmradio \
 	oem-services \
 	tcmiface \
 	qcmediaplayer
-
-# Camera
-PRODUCT_PACKAGES += \
-    camera.msm8916 \
-    libmm-qcamera \
-    libmmjpeg_interface \
-    libqomx_core \
-	mm-qcamera-app
-
-	# PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    # camera2.portability.force_api=1
 
 # Connectivity Engine support
 PRODUCT_PACKAGES += \
@@ -217,6 +207,12 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     power.msm8916
 
+# Prebuilt
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilt/dsi_config.xml:system/etc/data/dsi_config.xml \
+    $(LOCAL_PATH)/prebuilt/netmgr_config.xml:system/etc/data/netmgr_config.xml \
+    $(LOCAL_PATH)/prebuilt/qmi_config.xml:system/etc/data/qmi_config.xml
+
 # Properties
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.use_data_netmgrd=false \
@@ -250,6 +246,9 @@ PRODUCT_PACKAGES += \
 
 # Wifi
 PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
+    $(LOCAL_PATH)/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
+    $(LOCAL_PATH)/wifi/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
     $(LOCAL_PATH)/wifi/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:system/etc/firmware/wlan/prima/WCNSS_qcom_cfg.ini \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
@@ -260,17 +259,8 @@ PRODUCT_PACKAGES += \
     libQWiFiSoftApCfg \
     libqsap_sdk \
     libwpa_client \
-    p2p_supplicant_overlay.conf \
-    pronto_wlan.ko \
     wcnss_service \
-    wpa_supplicant \
-    wpa_supplicant.conf \
-    wpa_supplicant_overlay.conf
-
-#Create symbolic link
-$(shell mkdir -p $(TARGET_OUT)/lib/modules; \
-        ln -sf $(TARGET_OUT)/lib/modules/wlan.ko \
-               /system/lib/modules/$(WLAN_CHIPSET)/$(WLAN_CHIPSET)_wlan.ko)
+    wpa_supplicant
 
 # Inhert dalvik heap values from aosp
 $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
