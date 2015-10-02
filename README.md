@@ -26,5 +26,6 @@ Check the [`local_manifests`](./local_manifests) and [`patch`](./patch) director
 - [x] Moto E 2015 (codename:surnia) contributors (https://github.com/Motorola-CyanogenMod)
 - [x] Moto G 2015 (codename:osprey) contributors (https://github.com/CyanogenMod)
 - [x] YU YUPHORIA (codename:lettuce) contributors (https://github.com/CyanogenMod)
+- [x] Samsung Galaxy A5 (codename:a5ultexx) contributor Dāvis Mālnieks aka TheWhisp (https://github.com/TheWhisp)
 - [x] CM contributors developing msm8916 (https://github.com/CyanogenMod)
 - [x] Tell me if I have forgotten about you :)
