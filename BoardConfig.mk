@@ -15,20 +15,15 @@ BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 # Architecture
 TARGET_CPU_SMP := true
 TARGET_CPU_VARIANT := cortex-a53
+TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
+TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
 
 # Audio
 AUDIO_FEATURE_LOW_LATENCY_PRIMARY := true
 BOARD_USES_ALSA_AUDIO := true
-# AUDIO_FEATURE_DEEP_BUFFER_RINGTONE := true
-# AUDIO_FEATURE_ENABLED_KPI_OPTIMIZE := true
-# AUDIO_FEATURE_ENABLED_FLAC_OFFLOAD := false
-# AUDIO_FEATURE_ENABLED_FM := true
-# AUDIO_FEATURE_ENABLED_MULTI_VOICE_SESSIONS := true
-# AUDIO_FEATURE_ENABLED_NEW_SAMPLE_RATE := true
-# TARGET_USES_QCOM_MM_AUDIO := true
 
 # Asserts
-TARGET_OTA_ASSERT_DEVICE := grandprimelte,fortuna
+TARGET_OTA_ASSERT_DEVICE := grandprimelte,fortuna,fortunave3g
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
@@ -42,7 +37,6 @@ TARGET_BOOTLOADER_BOARD_NAME := MSM8916
 # Camera
 TARGET_USE_VENDOR_CAMERA_EXT := true
 USE_DEVICE_SPECIFIC_CAMERA := true
-#BOARD_USES_LEGACY_MMAP := true
 
 # Charger
 # BOARD_CHARGER_ENABLE_SUSPEND := true
@@ -69,10 +63,6 @@ TARGET_HAVE_NEW_GRALLOC := true
 # Encryption
 TARGET_SWV8_DISK_ENCRYPTION := true
 
-# Flags
-TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
-TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
-
 # FM
 AUDIO_FEATURE_ENABLED_FM := true
 TARGET_QCOM_NO_FM_FIRMWARE := true
@@ -98,16 +88,15 @@ ADDITIONAL_DEFAULT_PROPERTIES += ro.adb.secure=0
 # Kernel
 BOARD_CUSTOM_BOOTIMG_MK := $(LOCAL_PATH)/mkbootimg.mk
 BOARD_KERNEL_BASE := 0x80000000
-#BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 
 BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=23 msm_rtb.filter=0x3F ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci androidboot.selinux=permissive
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
 BOARD_RAMDISK_OFFSET     := 0x02000000
-TARGET_KERNEL_SOURCE := kernel/samsung/fortuna
 TARGET_KERNEL_CONFIG := msm8916_sec_defconfig
 TARGET_KERNEL_VARIANT_CONFIG := msm8916_sec_fortuna_eur_defconfig
 TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
+TARGET_KERNEL_SOURCE := kernel/samsung/fortuna
 
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
