@@ -13,25 +13,22 @@ PRODUCT_PACKAGES += libtime_genoff
 # ANT+
 PRODUCT_PACKAGES += \
     AntHalService \
-	antradio_app \
+    antradio_app \
     com.dsi.ant.antradio_library \
     libantradio
 
 # Audio
 PRODUCT_PACKAGES += \
-    audiod \
     audio.a2dp.default \
-    audio.msm8916 \
     audio.primary.msm8916 \
     audio.r_submix.default \
     audio.usb.default \
-	audio_policy.msm8916 \
-	libaudio-resampler \
+    audiod \
+    libaudio-resampler \
     libqcompostprocbundle \
     libqcomvisualizer \
-	libqcomvoiceprocessing \
+    libqcomvoiceprocessing \
     tinymix
-
 
 # Audio configuration
 PRODUCT_COPY_FILES += \
@@ -48,10 +45,10 @@ PRODUCT_COPY_FILES += \
 
 # Boot jars
 PRODUCT_BOOT_JARS += \
-	qcom.fmradio \
-	oem-services \
-	tcmiface \
-	qcmediaplayer
+    qcom.fmradio \
+    oem-services \
+    tcmiface \
+    qcmediaplayer
 
 # Connectivity Engine support
 PRODUCT_PACKAGES += \
@@ -98,10 +95,10 @@ PRODUCT_PACKAGES += \
 
 # Keylayout
 PRODUCT_COPY_FILES += \
-   $(LOCAL_PATH)/keylayout/ft5x06_ts.kl:system/usr/keylayout/ft5x06_ts.kl \
-   $(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-   $(LOCAL_PATH)/keylayout/synaptics_dsx.kl:system/usr/keylayout/synaptics_dsx.kl \
-   $(LOCAL_PATH)/keylayout/synaptics_rmi4_i2c.kl:system/usr/keylayout/synaptics_rmi4_i2c.kl
+    $(LOCAL_PATH)/keylayout/ft5x06_ts.kl:system/usr/keylayout/ft5x06_ts.kl \
+    $(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
+    $(LOCAL_PATH)/keylayout/synaptics_dsx.kl:system/usr/keylayout/synaptics_dsx.kl \
+    $(LOCAL_PATH)/keylayout/synaptics_rmi4_i2c.kl:system/usr/keylayout/synaptics_rmi4_i2c.kl
 
 # Keystore
 PRODUCT_PACKAGES += \
@@ -144,7 +141,7 @@ PRODUCT_COPY_FILES += \
 # MSM IRQ Balancer configuration file
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/msm_irqbalance.conf:system/vendor/etc/msm_irqbalance.conf
-	
+
 # Misc
 PRODUCT_PACKAGES += \
     curl \
@@ -152,25 +149,22 @@ PRODUCT_PACKAGES += \
     libcurl \
     tcpdump
 
-# NFC
-TARGET_USES_QCA_NFC := other
-
 # OMX
 PRODUCT_PACKAGES += \
     libdashplayer \
-	libdivxdrmdecrypt \
-	libmm-omxcore \
+    libdivxdrmdecrypt \
+    libmm-omxcore \
     libOmxAacEnc \
     libOmxAmrEnc \
     libOmxCore \
     libOmxEvrcEnc \
     libOmxQcelp13Enc \
-	libOmxSwVencMpeg4 \
+    libOmxSwVencMpeg4 \
     libOmxVdec \
     libOmxVdecHevc \
     libOmxVenc \
-	libOmxVidEnc \
-	libOmxVdpp \
+    libOmxVidEnc \
+    libOmxVdpp \
     libstagefrighthw \
     qcmediaplayer
 
