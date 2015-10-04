@@ -27,4 +27,7 @@ PRODUCT_BRAND := samsung
 PRODUCT_MODEL := SM-G530FZ
 PRODUCT_MANUFACTURER := samsung
 
+# My own ID
+TARGET_UNOFFICIAL_BUILD_ID  := by_baran0119_for
+
 $(call inherit-product-if-exists, vendor/samsung/fortuna/fortuna-vendor.mk)
